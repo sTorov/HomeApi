@@ -1,19 +1,35 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using HomeApi.Configuration;
+using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 
 namespace HomeApi
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        /// <summary>
+        /// Загрузка конфигурации из файла json
+        /// </summary>
+        private IConfiguration Configuration 
+            { get; } = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddJsonFile("appsettings.Development.json")
+            .AddJsonFile("HomeOptions.json")
+            .Build();
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //Добавляем новый сервис для опций
+            services.Configure<HomeOptions>(Configuration);
+            services.Configure<HomeOptions>(opt =>      //Переопределение свойства, указанного в json-файле
+            {
+                opt.Area = 120;
+            });
+            services.Configure<Address>(Configuration.GetSection("Address"));   //Получаем только адрес (вложенный json-объект), создание на его основе TOptions
+
+
+            // Нам не нужны представления, но в MVC бы здесь стояло AddControllersWithViews()
             services.AddControllers();
+            // поддерживает автоматическую генерацию документации WebApi с использованием Swagger
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo()
@@ -27,6 +43,9 @@ namespace HomeApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Достаём значение из свойства, вложенного в несколько объектов json-файла
+            string str = Configuration.GetSection("Logging").GetSection("LogLevel").GetValue<string>("Default");
+
             if (env.IsDevelopment()) 
             {
                 app.UseDeveloperExceptionPage();
@@ -41,6 +60,14 @@ namespace HomeApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapGet("/", async context =>
+                {
+                    context.Response.Redirect("/Home/info");
+                });
             });
         }
     }
