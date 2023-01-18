@@ -1,6 +1,7 @@
 ﻿using HomeApi.Configuration;
-using Microsoft.Extensions.Configuration;
+using HomeApi.MappingProfiles;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace HomeApi
 {
@@ -25,6 +26,11 @@ namespace HomeApi
                 opt.Area = 120;
             });
             services.Configure<Address>(Configuration.GetSection("Address"));   //Получаем только адрес (вложенный json-объект), создание на его основе TOptions
+
+
+            //Подключаем автомаппер
+            var assembly = Assembly.GetAssembly(typeof(MappingProfile));
+            services.AddAutoMapper(assembly);
 
 
             // Нам не нужны представления, но в MVC бы здесь стояло AddControllersWithViews()
@@ -60,14 +66,6 @@ namespace HomeApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    context.Response.Redirect("/Home/info");
-                });
             });
         }
     }

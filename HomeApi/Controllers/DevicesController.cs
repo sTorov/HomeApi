@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using HomeApi.Configuration;
+using HomeApi.Contracts.Devices;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace HomeApi.Controllers
 {
@@ -8,17 +12,27 @@ namespace HomeApi.Controllers
     {
         private readonly IHostEnvironment _env;
         private readonly ILogger<DevicesController> _logger;
+        private readonly IOptions<HomeOptions> _options;
+        private readonly IMapper _mapper;
 
-        public DevicesController(IHostEnvironment env, ILogger<DevicesController> logger)
+        public DevicesController(IHostEnvironment env, 
+            ILogger<DevicesController> logger,
+            IOptions<HomeOptions> options,
+            IMapper mapper)
         {
             _env = env;
             _logger = logger;
+            _options = options;
+            _mapper = mapper;
         }
 
+        /// <summary>
+        /// Метод для скачивания файла-руководства, либо получение информации о файле-руководстве
+        /// </summary>
         [HttpGet]
         [HttpHead]
         [Route("{manufacturer}")]
-        public IActionResult GetManual([FromRoute] string manufacturer)     //из параметров метода взято значение переменной для указания пути к методу
+        public IActionResult GetManual([FromRoute] string manufacturer)     //[FromRoute] - из параметров метода взято значение переменной для указания пути к методу
         {
             string staticPath = Path.Combine(_env.ContentRootPath, "Static");
             string filePath = Directory.GetFiles(staticPath)
@@ -33,6 +47,26 @@ namespace HomeApi.Controllers
             string fileName = $"{manufacturer}.pdf";
 
             return PhysicalFile(filePath, fileType, fileName);
+        }
+
+        /// <summary>
+        /// Просмотр списка подключенных устройств
+        /// </summary>
+        [HttpGet]
+        [Route("")]
+        public IActionResult Get()
+        {
+            return StatusCode(200, "Устройства отсутствуют!");
+        }
+
+        /// <summary>
+        /// Добавление нового устройства
+        /// </summary>
+        [HttpPost]
+        [Route("Add")]
+        public IActionResult Add([FromBody] AddDeviceRequest request)   //[FromBody] - Атрибут, указывающий, откуда брать значение объекта 
+        {
+            return StatusCode(200, $"Устройство {request.Name} добавлено!");
         }
     }
 }
