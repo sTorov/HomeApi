@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HomeApi.Configuration;
-using HomeApi.Contracts.Devices;
+using HomeApi.Contracts.Models.Devices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -66,6 +66,17 @@ namespace HomeApi.Controllers
         [Route("Add")]
         public IActionResult Add([FromBody] AddDeviceRequest request)   //[FromBody] - Атрибут, указывающий, откуда брать значение объекта 
         {
+            //if(request.CurrentVolts < 120)
+            //    return StatusCode(403, $"Устройства с напряжением менее 120 вольт не поддерживаются!");
+
+            //Добавляем для клиента информативую ошибку
+            if (request.CurrentVolts < 120)
+            {
+                //Содержит информацию о состоянии объекта
+                ModelState.AddModelError("currentVolts", "Устройства с напряжением менее 120 вольт не поддерживаются!");
+                return BadRequest(ModelState);
+            }
+
             return StatusCode(200, $"Устройство {request.Name} добавлено!");
         }
     }

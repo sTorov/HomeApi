@@ -7,15 +7,20 @@ namespace HomeApi
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         /// <summary>
         /// Загрузка конфигурации из файла json
         /// </summary>
-        private IConfiguration Configuration 
-            { get; } = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .AddJsonFile("appsettings.Development.json")
-            .AddJsonFile("HomeOptions.json")
-            .Build();
+        private IConfiguration Configuration { get; }
+        //{ get; } = new ConfigurationBuilder()
+        //    .AddJsonFile("appsettings.json")
+        //    .AddJsonFile("appsettings.Development.json")
+        //    .AddJsonFile("HomeOptions.json")
+        //    .Build();
 
         public void ConfigureServices(IServiceCollection services)
         {
