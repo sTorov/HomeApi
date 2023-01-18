@@ -1,7 +1,10 @@
-﻿using HomeApi.Configuration;
+﻿using FluentValidation.AspNetCore;
+using HomeApi.Configuration;
 using HomeApi.MappingProfiles;
+using HomeApi.Contracts.Validators.Devices;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using FluentValidation;
 
 namespace HomeApi
 {
@@ -24,6 +27,9 @@ namespace HomeApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //Подключение FluentValidation
+            services.AddValidatorsFromAssemblyContaining<AddDeviceRequestValidator>().AddFluentValidationAutoValidation();
+
             //Добавляем новый сервис для опций
             services.Configure<HomeOptions>(Configuration);
             services.Configure<HomeOptions>(opt =>      //Переопределение свойства, указанного в json-файле

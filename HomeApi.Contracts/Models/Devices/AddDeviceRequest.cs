@@ -7,19 +7,19 @@ namespace HomeApi.Contracts.Models.Devices
     /// </summary>
     public class AddDeviceRequest
     {
-        [Required]  //Обозначаем поля, как обязательные для заполнения
+        //[Required]  //Обозначаем поля, как обязательные для заполнения
         public string Name { get; set; }
-        [Required]
+        //[Required]
         public string Manufacturer { get; set; }
-        [Required]
+        //[Required]
         public string Model { get; set; }
-        [Required]
+        //[Required]
         public string SerialNumber { get; set; }
         //[Range(120, 220, ErrorMessage = "Поддерживаются устройства с напряжением от {1} до {2} вольт")] //Указываем диапозон значений и текст ошибки
         public int CurrentVolts { get; set; }
-        [Required]
+        //[Required]
         public bool GasUsage { get; set; }
-        [Required]
+        //[Required]
         public string Location { get; set; }
     }
 }

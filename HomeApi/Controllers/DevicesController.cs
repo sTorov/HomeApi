@@ -70,12 +70,12 @@ namespace HomeApi.Controllers
             //    return StatusCode(403, $"Устройства с напряжением менее 120 вольт не поддерживаются!");
 
             //Добавляем для клиента информативую ошибку
-            if (request.CurrentVolts < 120)
-            {
-                //Содержит информацию о состоянии объекта
-                ModelState.AddModelError("currentVolts", "Устройства с напряжением менее 120 вольт не поддерживаются!");
-                return BadRequest(ModelState);
-            }
+            //if (request.CurrentVolts < 120)
+            //{
+            //    //Содержит информацию о состоянии объекта
+            //    ModelState.AddModelError("currentVolts", "Устройства с напряжением менее 120 вольт не поддерживаются!");
+            //    return BadRequest(ModelState);
+            //}
 
             return StatusCode(200, $"Устройство {request.Name} добавлено!");
         }
