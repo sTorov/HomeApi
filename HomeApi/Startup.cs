@@ -1,10 +1,13 @@
 ﻿using FluentValidation.AspNetCore;
 using HomeApi.Configuration;
 using HomeApi.MappingProfiles;
-using HomeApi.Contracts.Validators.Devices;
+using HomeApi.Contracts.Validators.Device;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using FluentValidation;
+using HomeApi.Data.Repos;
+using HomeApi.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeApi
 {
@@ -27,22 +30,28 @@ namespace HomeApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //Подключение FluentValidation
-            services.AddValidatorsFromAssemblyContaining<AddDeviceRequestValidator>().AddFluentValidationAutoValidation();
+            //Регистрация сервиса репозитория для взаимодействия с базой данных
+            services.AddSingleton<IDeviceRepository, DeviceRepository>();
+            services.AddSingleton<IRoomRepository, RoomRepository>();
 
-            //Добавляем новый сервис для опций
+            string connect = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<HomeApiContext>(options => options.UseSqlServer(connect), ServiceLifetime.Singleton);
+
+            //Подключение FluentValidation
+            services.AddValidatorsFromAssemblyContaining<AddDeviceRequestValidator>()
+                .AddFluentValidationAutoValidation();
+
+            //Подключаем автомаппер
+            var assembly = Assembly.GetAssembly(typeof(MappingProfile));
+            services.AddAutoMapper(assembly);
+
+            //Добавляем новый сервис для опций (IOption<HomeOptions>)
             services.Configure<HomeOptions>(Configuration);
             services.Configure<HomeOptions>(opt =>      //Переопределение свойства, указанного в json-файле
             {
                 opt.Area = 120;
             });
             services.Configure<Address>(Configuration.GetSection("Address"));   //Получаем только адрес (вложенный json-объект), создание на его основе TOptions
-
-
-            //Подключаем автомаппер
-            var assembly = Assembly.GetAssembly(typeof(MappingProfile));
-            services.AddAutoMapper(assembly);
-
 
             // Нам не нужны представления, но в MVC бы здесь стояло AddControllersWithViews()
             services.AddControllers();

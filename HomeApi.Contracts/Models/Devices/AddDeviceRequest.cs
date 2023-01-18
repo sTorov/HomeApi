@@ -20,6 +20,6 @@ namespace HomeApi.Contracts.Models.Devices
         //[Required]
         public bool GasUsage { get; set; }
         //[Required]
-        public string Location { get; set; }
+        public string RoomLocation { get; set; }
     }
 }

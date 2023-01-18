@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeApi", "HomeApi\HomeApi.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeApi.Contracts", "HomeApi.Contracts\HomeApi.Contracts.csproj", "{916E1352-A90D-462D-B959-4576D305AFE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeApi.Data", "HomeApi.Data\HomeApi.Data.csproj", "{B5EB04EA-5AE6-4BE5-9C47-4C9715085647}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{916E1352-A90D-462D-B959-4576D305AFE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{916E1352-A90D-462D-B959-4576D305AFE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{916E1352-A90D-462D-B959-4576D305AFE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5EB04EA-5AE6-4BE5-9C47-4C9715085647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5EB04EA-5AE6-4BE5-9C47-4C9715085647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5EB04EA-5AE6-4BE5-9C47-4C9715085647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5EB04EA-5AE6-4BE5-9C47-4C9715085647}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

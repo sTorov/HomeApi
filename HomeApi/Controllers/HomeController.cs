@@ -30,7 +30,6 @@ namespace HomeApi.Controllers
         {
             //Получим запрос, "смапив" конфигурацию на модель запроса
             var infoResponse = _mapper.Map<HomeOptions, InfoResponse>(_options.Value);
-
             //Вернём ответ
             return StatusCode(200, infoResponse);
         }
