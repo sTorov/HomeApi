@@ -109,17 +109,22 @@ namespace HomeApi.Controllers
             [FromRoute] Guid id,
             [FromBody] EditDeviceRequest request)
         {
-            var room = await _rooms.GetRoomByName(request.NewRoom);
-            if (room == null)
-                return StatusCode(400, $"Ошибка: Комната {request.NewRoom} не подключена. Сначала подключите комнату!");
-
             var device = await _devices.GetDeviceById(id);
             if (device == null)
                 return StatusCode(400, $"Ошибка: Устройство с идентификатором {id} не существует!");
 
+            request.NewRoom ??= device.Location;
+
+            var room = await _rooms.GetRoomByName(request.NewRoom);
+            if (room == null)
+                return StatusCode(400, $"Ошибка: Комната {request.NewRoom} не подключена. Сначала подключите комнату!");            
+
             var withSameName = await _devices.GetDeviceByName(request.NewName);
             if (withSameName != null)
                 return StatusCode(400, $"Ошибка: Устройство с именем {request.NewName} уже подключено. Выберете другое имя!");
+
+            request.NewName ??= device.Name;
+            request.NewSerial ??= device.SerialNumber;
 
             await _devices.UpdateDevice(device, room, 
                 new UpdateDeviceQuery(request.NewName, request.NewSerial));

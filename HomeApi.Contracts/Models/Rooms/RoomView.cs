@@ -1,4 +1,4 @@
-﻿namespace HomeApi.Contracts.Models.Rooms.Get
+﻿namespace HomeApi.Contracts.Models.Rooms
 {
     public class RoomView
     {
