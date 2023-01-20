@@ -15,15 +15,14 @@ namespace HomeApi.MappingProfiles
     {
         public MappingProfile()
         {
-            CreateMap<Address, AddressInfo>();
+            CreateMap<Address, AddressInfo>();//.ReverseMap() -> для возможности обратного преобразования
             CreateMap<HomeOptions, InfoResponse>()
-                .ForMember(m => m.AddressInfo,
-                    opt => opt.MapFrom(src => src.Address));
+                .ForMember(m => m.AddressInfo, opt => opt.MapFrom(src => src.Address));
 
             //Валидация
             CreateMap<AddDeviceRequest, Device>()
-                .ForMember(d => d.Location,
-                    opt => opt.MapFrom(r => r.RoomLocation));
+                .ForMember(d => d.Location, opt => opt.MapFrom(r => r.RoomLocation));   //Необходимо вызывать для маппинга каждого разноименного свойства
+                //.ForMember(d => d.Name, opt => opt.MapFrom...)
             CreateMap<Device, DeviceView>();
             CreateMap<AddRoomRequest, Room>();
         }

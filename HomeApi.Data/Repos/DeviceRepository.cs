@@ -21,7 +21,10 @@ namespace HomeApi.Data.Repos
         /// </summary>
         public async Task DeleteDevice(Device device)
         {
-            _context.Devices.Remove(device);
+            var entry = _context.Entry(device);
+            if(entry.State == EntityState.Detached)
+                _context.Devices.Remove(device);
+
             await _context.SaveChangesAsync();
         }
 
@@ -87,7 +90,7 @@ namespace HomeApi.Data.Repos
             if(!string.IsNullOrEmpty(query.NewName))
                 device.Name = query.NewName;
             if(!string.IsNullOrEmpty(query.NewSerial))
-                device.SerialNumber= query.NewSerial;
+                device.SerialNumber = query.NewSerial;
 
             //Добавляем в базу
             var entry = _context.Entry(device);

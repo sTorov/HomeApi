@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using HomeApi.Configuration;
 using HomeApi.Contracts.Models.Devices;
 using HomeApi.Contracts.Models.Devices.Get;
 using HomeApi.Data.Queries;
 using HomeApi.Data.Models;
 using HomeApi.Data.Repos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace HomeApi.Controllers
 {
@@ -62,6 +60,7 @@ namespace HomeApi.Controllers
             var resp = new GetDeviceResponse
             {
                 DeviceAmount = devices.Length,
+                //При маппинге указывать TSource необязательно (Map<TSource, TDestination>) -> Map<DeviceView>(device)
                 Devices = _mapper.Map<Device[], DeviceView[]>(devices)
             };
 
@@ -118,12 +117,10 @@ namespace HomeApi.Controllers
             var device = await _devices.GetDeviceById(id);
             if (device == null)
                 return StatusCode(400, $"Ошибка: Устройство с идентификатором {id} не существует!");
-            if (string.IsNullOrEmpty(request.NewName))
-                request.NewName = device.Name;
 
             var withSameName = await _devices.GetDeviceByName(request.NewName);
-            if (withSameName != null && device.Location == request.NewRoom)
-                return StatusCode(400, $"Ошибка: Устройство с именем {request.NewName} в комнате {request.NewRoom} уже подключено. Выберете другое имя или комнату!");
+            if (withSameName != null)
+                return StatusCode(400, $"Ошибка: Устройство с именем {request.NewName} уже подключено. Выберете другое имя!");
 
             await _devices.UpdateDevice(device, room, 
                 new UpdateDeviceQuery(request.NewName, request.NewSerial));
