@@ -123,9 +123,6 @@ namespace HomeApi.Controllers
             if (withSameName != null)
                 return StatusCode(400, $"Ошибка: Устройство с именем {request.NewName} уже подключено. Выберете другое имя!");
 
-            request.NewName ??= device.Name;
-            request.NewSerial ??= device.SerialNumber;
-
             await _devices.UpdateDevice(device, room, 
                 new UpdateDeviceQuery(request.NewName, request.NewSerial));
 

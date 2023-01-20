@@ -81,7 +81,7 @@ namespace HomeApi.Data.Repos
         public async Task UpdateDevice(Device device, Room room, UpdateDeviceQuery query)
         {
             //Привязываем новое устройство к соответствующей комнате перед сохранением
-            if(room.Id != device.RoomId)
+            if (room.Id != device.RoomId)
             {
                 device.RoomId = room.Id;
                 device.Location = room.Name;
@@ -89,9 +89,9 @@ namespace HomeApi.Data.Repos
             }
             //Если в запросе переданы параметры для обновления - проверяем их на null
             //И если нужно - обновляем устройство
-            if(device.Name != query.NewName)
+            if (!string.IsNullOrEmpty(query.NewName))
                 device.Name = query.NewName;
-            if(device.SerialNumber != query.NewSerial)
+            if (!string.IsNullOrEmpty(query.NewSerial))
                 device.SerialNumber = query.NewSerial;
 
             //Добавляем в базу

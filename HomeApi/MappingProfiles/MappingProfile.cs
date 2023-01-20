@@ -25,6 +25,7 @@ namespace HomeApi.MappingProfiles
                 //.ForMember(d => d.Name, opt => opt.MapFrom...)
             CreateMap<Device, DeviceView>();
             CreateMap<AddRoomRequest, Room>();
+            CreateMap<Room, RoomView>();
         }
     }
 }

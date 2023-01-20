@@ -10,6 +10,7 @@ namespace HomeApi.Data.Repos
     {
         Task<Room> GetRoomByName(string name);
         Task<Room> GetRoomById(Guid id);
+        Task<Room[]> GetAllRooms();
         Task AddRoom(Room room);
         Task UpdateRoom(Room room, UpdateRoomQuery query);
     }

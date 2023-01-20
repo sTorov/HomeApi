@@ -21,6 +21,23 @@ namespace HomeApi.Controllers
         }
 
         /// <summary>
+        /// Получение всех существующих комнат
+        /// </summary>
+        [HttpGet]
+        [Route("")]
+        public async Task<IActionResult> GetRooms()
+        {
+            var rooms = await _repo.GetAllRooms();
+            var resp = new GetRoomResponse
+            {
+                RoomAmount = rooms.Length,
+                Rooms = _mapper.Map<RoomView[]>(rooms)
+            };
+
+            return StatusCode(200, resp);
+        }
+
+        /// <summary>
         /// Добавление комнаты
         /// </summary>
         [HttpPost]
