@@ -1,4 +1,4 @@
-﻿namespace HomeApi.Contracts.Models.Devices.Get
+﻿namespace HomeApi.Contracts.Models.Devices
 {
     public class GetDeviceResponse
     {

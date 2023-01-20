@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using HomeApi.Contracts.Models.Devices;
-using HomeApi.Contracts.Models.Devices.Get;
 using HomeApi.Data.Queries;
 using HomeApi.Data.Models;
 using HomeApi.Data.Repos;
@@ -126,6 +125,27 @@ namespace HomeApi.Controllers
                 new UpdateDeviceQuery(request.NewName, request.NewSerial));
 
             return StatusCode(200, $"Устройство обновлено! Имя - {device.Name}, Серийный номер - {device.SerialNumber},  Комната подключения - {device.Room.Name}");
+        }
+
+        /// <summary>
+        /// Удаление существующего устройства
+        /// </summary>
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var device = await _devices.GetDeviceById(id);
+            if (device == null)
+                return StatusCode(404, $"Не удалось найти указанное устройство для удаления!");
+
+            await _devices.DeleteDevice(device);
+            var resp = new DeleteDeviceResponse
+            {
+                Message = $"Операция удаления проведена успешно.",
+                DeletedDevice = _mapper.Map<DeviceView>(device)
+            };
+
+            return StatusCode(200, resp);
         }
     }
 }

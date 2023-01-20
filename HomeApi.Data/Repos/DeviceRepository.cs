@@ -22,7 +22,7 @@ namespace HomeApi.Data.Repos
         public async Task DeleteDevice(Device device)
         {
             var entry = _context.Entry(device);
-            if(entry.State == EntityState.Detached)
+            if(entry.State == EntityState.Unchanged)
                 _context.Devices.Remove(device);
 
             await _context.SaveChangesAsync();
