@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HomeApi.Data
 {
+    /// <summary>
+    /// Контекст базы данных
+    /// </summary>
     public sealed class HomeApiContext : DbContext
     {
         public DbSet<Room> Rooms { get; set; }

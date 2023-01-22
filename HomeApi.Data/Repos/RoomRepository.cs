@@ -28,6 +28,9 @@ namespace HomeApi.Data.Repos
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Выгрузить все комнаты
+        /// </summary>
         public async Task<Room[]> GetAllRooms()
         {
             return await _context.Rooms.ToArrayAsync();
@@ -54,7 +57,6 @@ namespace HomeApi.Data.Repos
         /// <summary>
         /// Обновление комнаты
         /// </summary>
-        /// <param name="room"></param>
         public async Task UpdateRoom(Room room, UpdateRoomQuery query)
         {
             if(!string.IsNullOrEmpty(query.NewName))

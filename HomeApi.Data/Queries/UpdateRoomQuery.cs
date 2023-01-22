@@ -1,5 +1,8 @@
 ﻿namespace HomeApi.Data.Queries
 {
+    /// <summary>
+    /// Класс для передачи дополнительных параметров при обновлении комнаты
+    /// </summary>
     public class UpdateRoomQuery
     {
         public string NewName { get; set; }

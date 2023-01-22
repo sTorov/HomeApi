@@ -1,61 +1,46 @@
-﻿using FluentValidation.AspNetCore;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
 using HomeApi.Configuration;
 using HomeApi.MappingProfiles;
 using HomeApi.Contracts.Validators.Device;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
-using FluentValidation;
-using HomeApi.Data.Repos;
 using HomeApi.Data;
+using HomeApi.Data.Repos;
+using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace HomeApi
 {
     public class Startup
     {
+        private IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
+        
         /// <summary>
-        /// Загрузка конфигурации из файла json
+        /// Подключение и настройка сервисов
         /// </summary>
-        private IConfiguration Configuration { get; }
-        //{ get; } = new ConfigurationBuilder()
-        //    .AddJsonFile("appsettings.json")
-        //    .AddJsonFile("appsettings.Development.json")
-        //    .AddJsonFile("HomeOptions.json")
-        //    .Build();
-
         public void ConfigureServices(IServiceCollection services)
         {
-            //Регистрация сервиса репозитория для взаимодействия с базой данных
             services.AddSingleton<IDeviceRepository, DeviceRepository>();
             services.AddSingleton<IRoomRepository, RoomRepository>();
 
             string connect = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<HomeApiContext>(options => options.UseSqlServer(connect), ServiceLifetime.Singleton);
 
-            //Подключение FluentValidation
             services.AddValidatorsFromAssemblyContaining<AddDeviceRequestValidator>()
                 .AddFluentValidationAutoValidation();
-
-            //Подключаем автомаппер
+            
             var assembly = Assembly.GetAssembly(typeof(MappingProfile));
             services.AddAutoMapper(assembly);
-
-            //Добавляем новый сервис для опций (IOption<HomeOptions>)
+            
             services.Configure<HomeOptions>(Configuration);
-            services.Configure<HomeOptions>(opt =>      //Переопределение свойства, указанного в json-файле
-            {
-                opt.Area = 120;
-            });
-            services.Configure<Address>(Configuration.GetSection("Address"));   //Получаем только адрес (вложенный json-объект), создание на его основе TOptions
+            services.Configure<Address>(Configuration.GetSection("Address"));
 
-            // Нам не нужны представления, но в MVC бы здесь стояло AddControllersWithViews()
             services.AddControllers();
-            // поддерживает автоматическую генерацию документации WebApi с использованием Swagger
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo()
@@ -67,11 +52,11 @@ namespace HomeApi
             });
         }
 
+        /// <summary>
+        /// Настройка приложения
+        /// </summary>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //Достаём значение из свойства, вложенного в несколько объектов json-файла
-            string str = Configuration.GetSection("Logging").GetSection("LogLevel").GetValue<string>("Default");
-
             if (env.IsDevelopment()) 
             {
                 app.UseDeveloperExceptionPage();
@@ -83,10 +68,7 @@ namespace HomeApi
             app.UseRouting();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

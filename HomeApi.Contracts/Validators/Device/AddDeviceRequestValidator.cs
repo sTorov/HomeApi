@@ -4,7 +4,7 @@ using HomeApi.Contracts.Models.Devices;
 namespace HomeApi.Contracts.Validators.Device
 {
     /// <summary>
-    /// Класс-валидатор запросов подключения
+    /// Класс-валидатор запросов для подключения новых устройств
     /// </summary>
     public class AddDeviceRequestValidator : AbstractValidator<AddDeviceRequest>
     {
@@ -13,11 +13,11 @@ namespace HomeApi.Contracts.Validators.Device
         /// </summary>
         public AddDeviceRequestValidator()
         {
-            RuleFor(x => x.Name).NotEmpty();    //Проверка на null или пустое значение
+            RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Manufacturer).NotEmpty();
             RuleFor(x => x.Model).NotEmpty();
             RuleFor(x => x.SerialNumber).NotEmpty();
-            RuleFor(x => x.CurrentVolts).NotEmpty().InclusiveBetween(120, 220);     //Проверяем, что значение находится в диапозоне
+            RuleFor(x => x.CurrentVolts).NotEmpty().InclusiveBetween(120, 220);
             RuleFor(x => x.GasUsage).NotNull();
             RuleFor(x => x.RoomLocation)
                 .NotEmpty()
@@ -26,7 +26,7 @@ namespace HomeApi.Contracts.Validators.Device
         }
 
         /// <summary>
-        /// Метод кастомной валидации для свойства location
+        /// Метод кастомной валидации для свойства RoomLocation
         /// </summary>
         private bool BeSupported(string location)
         {

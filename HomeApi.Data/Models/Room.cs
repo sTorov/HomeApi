@@ -2,6 +2,9 @@
 
 namespace HomeApi.Data.Models
 {
+    /// <summary>
+    /// Модель таблицы комнат
+    /// </summary>
     [Table("Rooms")]
     public class Room
     {

@@ -62,16 +62,13 @@ namespace HomeApi.Data.Repos
         /// </summary>
         public async Task SaveDevice(Device device, Room room)
         {
-            //Привязываем новое устройство к соответствующей комнате перед сохранением
             device.RoomId = room.Id;
             device.Room = room;
 
-            //Добавляем в базу
             var entry = _context.Entry(device);
             if (entry.State == EntityState.Detached)
                 await _context.Devices.AddAsync(device);
 
-            //Сохраняем изменения в базе
             await _context.SaveChangesAsync();
         }
 
@@ -80,26 +77,22 @@ namespace HomeApi.Data.Repos
         /// </summary>
         public async Task UpdateDevice(Device device, Room room, UpdateDeviceQuery query)
         {
-            //Привязываем новое устройство к соответствующей комнате перед сохранением
             if (room.Id != device.RoomId)
             {
                 device.RoomId = room.Id;
                 device.Location = room.Name;
                 device.Room = room;
             }
-            //Если в запросе переданы параметры для обновления - проверяем их на null
-            //И если нужно - обновляем устройство
+
             if (!string.IsNullOrEmpty(query.NewName))
                 device.Name = query.NewName;
             if (!string.IsNullOrEmpty(query.NewSerial))
                 device.SerialNumber = query.NewSerial;
 
-            //Добавляем в базу
             var entry = _context.Entry(device);
             if (entry.State == EntityState.Detached)
                 _context.Devices.Update(device);
 
-            //Сохраняем изменения в базе
             await _context.SaveChangesAsync();
         }
     }

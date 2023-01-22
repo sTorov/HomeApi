@@ -2,6 +2,9 @@
 
 namespace HomeApi.Data.Models
 {
+    /// <summary>
+    /// Модель таблицы устройств
+    /// </summary>
     [Table("Devices")]
     public class Device
     {

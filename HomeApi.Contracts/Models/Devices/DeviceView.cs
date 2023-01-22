@@ -1,5 +1,8 @@
 ﻿namespace HomeApi.Contracts.Models.Devices
 {
+    /// <summary>
+    /// Модель для создания объекта устройства в ответе
+    /// </summary>
     public class DeviceView
     {
         public DateTime AddDate { get; set; }

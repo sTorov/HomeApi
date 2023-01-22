@@ -13,17 +13,8 @@ namespace HomeApi.Contracts.Validators.Device
         /// </summary>
         public EditDeviceRequestValidator()
         {
-            RuleFor(x => x.NewRoom).Must(BeSupported)
+            RuleFor(x => x.NewRoom).Must(CustomValidationMethods.BeNullableSupported)
                 .WithMessage($"Пожалуйста, выберите одно из допустимых значений: {string.Join(", ", Values.ValidRooms)}");
-        }
-
-        /// <summary>
-        /// Метод кастомной валидации для свойства location
-        /// </summary>
-        private bool BeSupported(string location)
-        {
-            if(location == null) return true;
-            return Values.ValidRooms.Any(e => e == location);
         }
     }
 }

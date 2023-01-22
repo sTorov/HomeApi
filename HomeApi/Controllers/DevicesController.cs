@@ -30,7 +30,7 @@ namespace HomeApi.Controllers
         [HttpGet]
         [HttpHead]
         [Route("{manufacturer}")]
-        public IActionResult GetManual([FromRoute] string manufacturer)     //[FromRoute] - из параметров метода взято значение переменной для указания пути к методу
+        public IActionResult GetManual([FromRoute] string manufacturer)
         {
             string staticPath = Path.Combine(_env.ContentRootPath, "Static");
             string filePath = Directory.GetFiles(staticPath)
@@ -59,7 +59,6 @@ namespace HomeApi.Controllers
             var resp = new GetDeviceResponse
             {
                 DeviceAmount = devices.Length,
-                //При маппинге указывать TSource необязательно (Map<TSource, TDestination>) -> Map<DeviceView>(device)
                 Devices = _mapper.Map<Device[], DeviceView[]>(devices)
             };
 
@@ -71,21 +70,8 @@ namespace HomeApi.Controllers
         /// </summary>
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> Add([FromBody] AddDeviceRequest request)   //[FromBody] - Атрибут, указывающий, откуда брать значение объекта 
+        public async Task<IActionResult> Add([FromBody] AddDeviceRequest request)
         {
-            #region valid
-            //if(request.CurrentVolts < 120)
-            //    return StatusCode(403, $"Устройства с напряжением менее 120 вольт не поддерживаются!");
-
-            //Добавляем для клиента информативую ошибку
-            //if (request.CurrentVolts < 120)
-            //{
-            //    //Содержит информацию о состоянии объекта
-            //    ModelState.AddModelError("currentVolts", "Устройства с напряжением менее 120 вольт не поддерживаются!");
-            //    return BadRequest(ModelState);
-            //}
-            #endregion
-
             var room = await _rooms.GetRoomByName(request.RoomLocation);
             if (room == null)
                 return StatusCode(400, $"Ошибка: Комната {request.RoomLocation} не подключена. Сначала подключите комнату!");
@@ -138,9 +124,10 @@ namespace HomeApi.Controllers
         {
             var device = await _devices.GetDeviceById(id);
             if (device == null)
-                return StatusCode(404, $"Не удалось найти указанное устройство для удаления!");
+                return StatusCode(404, $"Ошибка: Не удалось найти устройство с идентификатором {id} для удаления!");
 
             await _devices.DeleteDevice(device);
+
             var resp = new DeleteDeviceResponse
             {
                 Message = $"Операция удаления проведена успешно.",

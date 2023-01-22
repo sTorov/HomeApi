@@ -1,5 +1,8 @@
 ﻿namespace HomeApi.Contracts.Models.Rooms
 {
+    /// <summary>
+    /// Модель комнаты (для модель ответа)
+    /// </summary>
     public class RoomView
     {
         public string Name { get; set; }

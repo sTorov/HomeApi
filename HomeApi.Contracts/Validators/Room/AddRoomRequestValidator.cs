@@ -10,17 +10,16 @@ namespace HomeApi.Contracts.Validators.Room
     {
         public AddRoomRequestValidator()
         {
-            RuleFor(x => x.Area).NotEmpty().GreaterThan(0)
+            RuleFor(x => x.Area).GreaterThan(0)
                 .WithMessage($"Площадь помещения должна быть больше нуля!");
             RuleFor(x => x.Name).Must(BeSupported)
                 .WithMessage($"Пожалуйста, выберите одно из допустимых значений: {string.Join(", ", Values.ValidRooms)}");
-            RuleFor(x => x.Voltage).NotEmpty().GreaterThanOrEqualTo(0)
+            RuleFor(x => x.Voltage).GreaterThanOrEqualTo(0)
                 .WithMessage($"Вольтаж должен быть больше либо равен нулю!");
-            RuleFor(x => x.GasConnected).NotEmpty();
         }
 
         /// <summary>
-        /// Метод кастомной валидации для свойства location
+        /// Метод кастомной валидации для свойства Name
         /// </summary>
         private bool BeSupported(string location)
         {

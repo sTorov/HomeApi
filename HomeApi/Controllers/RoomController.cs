@@ -28,6 +28,7 @@ namespace HomeApi.Controllers
         public async Task<IActionResult> GetRooms()
         {
             var rooms = await _repo.GetAllRooms();
+
             var resp = new GetRoomResponse
             {
                 RoomAmount = rooms.Length,
@@ -45,6 +46,7 @@ namespace HomeApi.Controllers
         public async Task<IActionResult> Add([FromBody] AddRoomRequest request)
         {
             var exitingRoom = await _repo.GetRoomByName(request.Name);
+
             if (exitingRoom == null) 
             {
                 var newRoom = _mapper.Map<AddRoomRequest, Room>(request);
@@ -81,6 +83,7 @@ namespace HomeApi.Controllers
                 );
 
             await _repo.UpdateRoom(room, query);
+
             return StatusCode(200, $"Информация о комнате с идентификатором {id} успешно обновлена!");
         }
     }

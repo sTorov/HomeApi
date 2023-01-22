@@ -1,5 +1,8 @@
 ﻿namespace HomeApi.Contracts.Models.Rooms
 {
+    /// <summary>
+    /// Модель запроса для обновления существующего устройства
+    /// </summary>
     public class EditRoomRequest
     {
         public string? NewName { get; set; }

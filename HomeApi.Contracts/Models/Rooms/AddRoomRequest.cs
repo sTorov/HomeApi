@@ -1,5 +1,8 @@
 ﻿namespace HomeApi.Contracts.Models.Rooms
 {
+    /// <summary>
+    /// Модель запроса для добавления новой комнаты
+    /// </summary>
     public class AddRoomRequest
     {
         public string Name { get; set; }

@@ -4,7 +4,7 @@ using HomeApi.Data.Queries;
 namespace HomeApi.Data.Repos
 {
     /// <summary>
-    /// Интерфейс определяет методы для доступа к объектам типа Device в базе 
+    /// Интерфейс определяющий методы для доступа к объектам типа "Device" в базе 
     /// </summary>
     public interface IDeviceRepository
     {
