@@ -1,4 +1,4 @@
-﻿namespace HomeApi.Contracts.Models.Rooms
+﻿namespace HomeApi.Contracts.Models.Room
 {
     /// <summary>
     /// Модель запроса для обновления существующего устройства

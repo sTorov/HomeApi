@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using HomeApi.Configuration;
-using HomeApi.Contracts.Models.Devices;
+using HomeApi.Contracts.Models.Device;
 using HomeApi.Contracts.Models.Home;
-using HomeApi.Contracts.Models.Rooms;
+using HomeApi.Contracts.Models.Room;
 using HomeApi.Data.Models;
 
 namespace HomeApi.MappingProfiles
 {
     /// <summary>
-    /// Настройка моппинга всех сущностей приложения
+    /// Настройка маппинга всех сущностей приложения
     /// </summary>
     public class MappingProfile : Profile
     {

@@ -1,4 +1,4 @@
-﻿namespace HomeApi.Contracts.Models.Devices
+﻿namespace HomeApi.Contracts.Models.Device
 {
     /// <summary>
     /// Получения всех подключеных устройств (модель ответа)

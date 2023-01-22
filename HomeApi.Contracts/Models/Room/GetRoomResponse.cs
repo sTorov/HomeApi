@@ -1,4 +1,4 @@
-﻿namespace HomeApi.Contracts.Models.Rooms
+﻿namespace HomeApi.Contracts.Models.Room
 {
     /// <summary>
     /// Получение списка всех существующих комнат (модель ответа)

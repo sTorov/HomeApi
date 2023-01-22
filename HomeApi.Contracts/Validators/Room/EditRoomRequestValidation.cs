@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using HomeApi.Contracts.Models.Rooms;
+using HomeApi.Contracts.Models.Room;
 
 namespace HomeApi.Contracts.Validators.Room
 {
@@ -22,15 +22,5 @@ namespace HomeApi.Contracts.Validators.Room
             RuleFor(x => x.NewName).Must(CustomValidationMethods.BeNullableSupported)
                 .WithMessage($"Пожалуйста, выберите одно из допустимых значений: {string.Join(", ", Values.ValidRooms)}");
         }
-
-        /// <summary>
-        /// Метод кастомной валидации для свойства NewName
-        /// </summary>
-        //private bool BeSupported(string location)
-        //{
-        //    if(location == null) return true;
-
-        //    return Values.ValidRooms.Any(e => e == location);
-        //}
     }
 }

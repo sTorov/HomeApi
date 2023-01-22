@@ -1,4 +1,4 @@
-﻿namespace HomeApi.Contracts.Models.Devices
+﻿namespace HomeApi.Contracts.Models.Device
 {
     /// <summary>
     /// Модель ответа для удаления устройства

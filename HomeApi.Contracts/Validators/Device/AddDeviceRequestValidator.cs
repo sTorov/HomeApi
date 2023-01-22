@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
-using HomeApi.Contracts.Models.Devices;
+using HomeApi.Contracts.Models.Device;
 
 namespace HomeApi.Contracts.Validators.Device
 {
     /// <summary>
-    /// Класс-валидатор запросов для подключения новых устройств
+    /// Класс-валидатор запросов подключения новых устройств
     /// </summary>
     public class AddDeviceRequestValidator : AbstractValidator<AddDeviceRequest>
     {
@@ -21,16 +21,8 @@ namespace HomeApi.Contracts.Validators.Device
             RuleFor(x => x.GasUsage).NotNull();
             RuleFor(x => x.RoomLocation)
                 .NotEmpty()
-                .Must(BeSupported)
+                .Must(CustomValidationMethods.BeSupported)
                 .WithMessage($"Пожалуйста, выберите одно из допустимых значений: {string.Join(", ", Values.ValidRooms)}");
-        }
-
-        /// <summary>
-        /// Метод кастомной валидации для свойства RoomLocation
-        /// </summary>
-        private bool BeSupported(string location)
-        {
-            return Values.ValidRooms.Any(e => e == location);
         }
     }
 }

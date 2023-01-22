@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HomeApi.Contracts.Models.Rooms;
+using HomeApi.Contracts.Models.Room;
 using HomeApi.Data.Models;
 using HomeApi.Data.Queries;
 using HomeApi.Data.Repos;
@@ -82,9 +82,18 @@ namespace HomeApi.Controllers
                 newVoltage: request.NewVoltage
                 );
 
+            var oldRoom = room.Clone();
+
             await _repo.UpdateRoom(room, query);
 
-            return StatusCode(200, $"Информация о комнате с идентификатором {id} успешно обновлена!");
+            var resp = new EditRoomResponse
+            {
+                Message = $"Информация о комнате с идентификатором {id} успешно обновлена!",
+                OldRoom = _mapper.Map<RoomView>(oldRoom),
+                NewRoom = _mapper.Map<RoomView>(room)
+            };
+
+            return StatusCode(200, resp);
         }
     }
 }

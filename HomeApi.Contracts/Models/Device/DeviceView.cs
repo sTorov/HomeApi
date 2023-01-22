@@ -1,7 +1,7 @@
-﻿namespace HomeApi.Contracts.Models.Devices
+﻿namespace HomeApi.Contracts.Models.Device
 {
     /// <summary>
-    /// Модель для создания объекта устройства в ответе
+    /// Модель устройства (для модели ответа)
     /// </summary>
     public class DeviceView
     {

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HomeApi.Contracts.Models.Devices;
+using HomeApi.Contracts.Models.Device;
 using HomeApi.Data.Queries;
 using HomeApi.Data.Models;
 using HomeApi.Data.Repos;
@@ -9,14 +9,14 @@ namespace HomeApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class DevicesController : ControllerBase
+    public class DeviceController : ControllerBase
     {
         private readonly IHostEnvironment _env;
         private readonly IMapper _mapper;
         private readonly IDeviceRepository _devices;
         private readonly IRoomRepository _rooms;
 
-        public DevicesController(IHostEnvironment env, IMapper mapper, IDeviceRepository devices, IRoomRepository rooms)
+        public DeviceController(IHostEnvironment env, IMapper mapper, IDeviceRepository devices, IRoomRepository rooms)
         {
             _env = env;
             _mapper = mapper;
