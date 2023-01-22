@@ -5,10 +5,10 @@
     /// </summary>
     public class UpdateRoomQuery
     {
-        public string NewName { get; set; }
-        public int? NewArea { get; set; }
-        public bool? NewGasConnected { get; set; }
-        public int? NewVoltage { get; set; }
+        public string NewName { get; }
+        public int? NewArea { get; }
+        public bool? NewGasConnected { get; }
+        public int? NewVoltage { get; }
 
         public UpdateRoomQuery(bool? newGasConnected = null, string newName = null, int? newArea = null, int? newVoltage = null)
         {
